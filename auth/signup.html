@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Labour Hub</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <i class="fas fa-hard-hat"></i>
+                <span>LabourHub</span>
+            </a>
+            
+            <div class="nav-buttons">
+                <a href="../index.html" class="btn btn-outline">
+                    <i class="fas fa-home"></i> Home
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container" style="min-height: 80vh; display: flex; align-items: center; justify-content: center;">
+        <div class="form-container fade-in">
+            <h1 class="form-title">Create Account</h1>
+            <p class="text-center" style="color: var(--text-gray); margin-bottom: 2rem;">
+                Join LabourHub as Worker or Customer
+            </p>
+            
+            <!-- Role Selection -->
+            <div class="role-selection" style="margin-bottom: 2rem;">
+                <h3 style="margin-bottom: 1rem; color: var(--text-dark);">
+                    I want to join as:
+                </h3>
+                <div class="role-cards" style="display: grid; gap: 1rem; margin-bottom: 1.5rem;">
+                    <div class="role-card" onclick="selectRole('worker')" 
+                         style="padding: 1.5rem; border: 2px solid var(--border); border-radius: var(--radius); cursor: pointer; transition: var(--transition);">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 50px; height: 50px; background: #dbeafe; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-hard-hat" style="color: var(--primary); font-size: 1.5rem;"></i>
+                            </div>
+                            <div>
+                                <h4 style="color: var(--text-dark);">Worker / Labour</h4>
+                                <p style="color: var(--text-gray); font-size: 0.875rem;">
+                                    Find work in your area
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="role-card" onclick="selectRole('customer')"
+                         style="padding: 1.5rem; border: 2px solid var(--border); border-radius: var(--radius); cursor: pointer; transition: var(--transition);">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 50px; height: 50px; background: #dcfce7; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-search" style="color: var(--success); font-size: 1.5rem;"></i>
+                            </div>
+                            <div>
+                                <h4 style="color: var(--text-dark);">Customer</h4>
+                                <p style="color: var(--text-gray); font-size: 0.875rem;">
+                                    Hire skilled workers
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="role-card" onclick="selectRole('professional')"
+                         style="padding: 1.5rem; border: 2px solid var(--border); border-radius: var(--radius); cursor: pointer; transition: var(--transition);">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 50px; height: 50px; background: #fef3c7; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-user-tie" style="color: var(--warning); font-size: 1.5rem;"></i>
+                            </div>
+                            <div>
+                                <h4 style="color: var(--text-dark);">Professional</h4>
+                                <p style="color: var(--text-gray); font-size: 0.875rem;">
+                                    Add multiple workers (Contractor)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Signup Form -->
+            <form id="signupForm" onsubmit="handleSignup(event)">
+                <input type="hidden" id="selectedRole" value="">
+                
+                <div class="form-group">
+                    <label for="fullName" class="form-label">
+                        Full Name - पूरा नाम *
+                    </label>
+                    <input type="text" id="fullName" class="form-control" 
+                           placeholder="Enter your full name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="mobile" class="form-label">
+                        Mobile Number - मोबाइल नंबर *
+                    </label>
+                    <input type="tel" id="mobile" class="form-control" 
+                           placeholder="+91 9876543210" required
+                           pattern="[0-9]{10}" title="Please enter 10 digit mobile number">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" class="form-label">
+                        Email Address (Optional)
+                    </label>
+                    <input type="email" id="email" class="form-control" 
+                           placeholder="your@email.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password" class="form-label">
+                        Password - पासवर्ड *
+                    </label>
+                    <input type="password" id="password" class="form-control" 
+                           placeholder="Create a strong password" required
+                           minlength="6">
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword" class="form-label">
+                        Confirm Password - पासवर्ड दोबारा *
+                    </label>
+                    <input type="password" id="confirmPassword" class="form-control" 
+                           placeholder="Re-enter password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="location" class="form-label">
+                        Your Location - आपका इलाका *
+                    </label>
+                    <select id="location" class="form-control form-select" required>
+                        <option value="">Select your area - इलाका चुनें</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Mumbai">Mumbai</option>
+                        <option value="Bangalore">Bangalore</option>
+                        <option value="Chennai">Chennai</option>
+                        <option value="Kolkata">Kolkata</option>
+                        <option value="Hyderabad">Hyderabad</option>
+                        <option value="other">Other City</option>
+                    </select>
+                </div>
+                
+                <div class="form-check" style="margin-bottom: 1.5rem;">
+                    <input type="checkbox" id="terms" class="form-check-input" required>
+                    <label for="terms" class="form-check-label">
+                        I agree to Terms & Conditions - मैं नियम और शर्तों से सहमत हूं
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+            </form>
+            
+            <div class="text-center" style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+                <p style="color: var(--text-gray);">
+                    Already have an account?
+                    <a href="login.html" style="color: var(--primary); font-weight: 600;">
+                        Login here
+                    </a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <script src="signup.js"></script>
+    <script>
+        // Select Role Function
+        function selectRole(role) {
+            document.getElementById('selectedRole').value = role;
+            
+            // Remove active class from all
+            document.querySelectorAll('.role-card').forEach(card => {
+                card.style.borderColor = 'var(--border)';
+                card.style.backgroundColor = 'white';
+            });
+            
+            // Add active class to selected
+            const selectedCard = event.currentTarget;
+            selectedCard.style.borderColor = 'var(--primary)';
+            selectedCard.style.backgroundColor = '#f0f9ff';
+            
+            // Update form based on role
+            updateFormForRole(role);
+        }
+        
+        function updateFormForRole(role) {
+            const locationField = document.getElementById('location');
+            
+            if (role === 'worker') {
+                locationField.innerHTML = `
+                    <option value="">Select your working area - काम का इलाका चुनें</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Bangalore">Bangalore</option>
+                    <option value="Chennai">Chennai</option>
+                    <option value="Kolkata">Kolkata</option>
+                    <option value="Hyderabad">Hyderabad</option>
+                    <option value="other">Other Area</option>
+                `;
+            } else if (role === 'customer') {
+                locationField.innerHTML = `
+                    <option value="">Select your location - आपका इलाका चुनें</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Bangalore">Bangalore</option>
+                    <option value="Chennai">Chennai</option>
+                    <option value="Kolkata">Kolkata</option>
+                    <option value="Hyderabad">Hyderabad</option>
+                    <option value="other">Other City</option>
+                `;
+            }
+        }
+        
+        // Check URL for pre-selected role
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const roleFromUrl = urlParams.get('role');
+            
+            if (roleFromUrl) {
+                selectRole(roleFromUrl);
+            }
+        });
+    </script>
+</body>
+</html>

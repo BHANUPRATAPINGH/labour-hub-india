@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worker Registration - Labour Hub</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="dashboard">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <i class="fas fa-hard-hat"></i>
+                <span>LabourHub</span>
+            </a>
+            
+            <div class="nav-buttons">
+                <a href="../dashboard/worker.html" class="btn btn-outline">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Registration Form -->
+    <main class="dashboard-content">
+        <div class="registration-container">
+            <!-- Progress Steps -->
+            <div class="progress-steps card" style="margin-bottom: 2rem;">
+                <div style="display: flex; justify-content: space-between; position: relative; padding: 0 1rem;">
+                    <!-- Progress Line -->
+                    <div style="position: absolute; top: 15px; left: 50px; right: 50px; height: 2px; background: var(--border); z-index: 1;"></div>
+                    <div id="progressLine" style="position: absolute; top: 15px; left: 50px; width: 0%; height: 2px; background: var(--primary); z-index: 2; transition: width 0.3s ease;"></div>
+                    
+                    <!-- Steps -->
+                    <div class="step active" data-step="1">
+                        <div class="step-circle">1</div>
+                        <div class="step-label">Basic Info</div>
+                    </div>
+                    
+                    <div class="step" data-step="2">
+                        <div class="step-circle">2</div>
+                        <div class="step-label">Profession</div>
+                    </div>
+                    
+                    <div class="step" data-step="3">
+                        <div class="step-circle">3</div>
+                        <div class="step-label">Experience</div>
+                    </div>
+                    
+                    <div class="step" data-step="4">
+                        <div class="step-circle">4</div>
+                        <div class="step-label">Review</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 1: Basic Information -->
+            <div id="step1" class="registration-step card active">
+                <div class="step-header">
+                    <h2>
+                        <i class="fas fa-user"></i> 
+                        Step 1: Basic Information - मूल जानकारी
+                    </h2>
+                    <p class="step-subtitle">
+                        Enter your personal details
+                    </p>
+                </div>
+                
+                <form id="basicInfoForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="fullName" class="form-label">
+                                Full Name - पूरा नाम *
+                            </label>
+                            <input type="text" id="fullName" class="form-control" 
+                                   placeholder="Enter your full name" required>
+                            <small class="form-hint">
+                                As per your Aadhaar card
+                            </small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="fatherName" class="form-label">
+                                Father's Name - पिता का नाम *
+                            </label>
+                            <input type="text" id="fatherName" class="form-control" 
+                                   placeholder="Enter father's name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="mobile" class="form-label">
+                                Mobile Number - मोबाइल नंबर *
+                            </label>
+                            <input type="tel" id="mobile" class="form-control" 
+                                   placeholder="9876543210" required
+                                   pattern="[0-9]{10}">
+                            <small class="form-hint">
+                                10 digit mobile number
+                            </small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="age" class="form-label">
+                                Age - उम्र *
+                            </label>
+                            <input type="number" id="age" class="form-control" 
+                                   placeholder="25" min="18" max="70" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address" class="form-label">
+                            Full Address - पूरा पता *
+                        </label>
+                        <textarea id="address" class="form-control form-textarea" 
+                                  rows="3" placeholder="House no, Street, City, State" required></textarea>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="area" class="form-label">
+                                Area / Location - इलाका *
+                            </label>
+                            <input type="text" id="area" class="form-control" 
+                                   placeholder="e.g., Patel Nagar" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pincode" class="form-label">
+                                Pincode - पिन कोड *
+                            </label>
+                            <input type="text" id="pincode" class="form-control" 
+                                   placeholder="110008" required
+                                   pattern="[0-9]{6}">
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" onclick="nextStep()" class="btn btn-primary">
+                            Next Step <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Step 2: Profession Selection -->
+            <div id="step2" class="registration-step card" style="display: none;">
+                <div class="step-header">
+                    <h2>
+                        <i class="fas fa-briefcase"></i> 
+                        Step 2: Select Your Profession - पेशा चुनें
+                    </h2>
+                    <p class="step-subtitle">
+                        Choose your main profession/skill
+                    </p>
+                </div>
+                
+                <div class="profession-selection">
+                    <div class="form-group">
+                        <label class="form-label">
+                            Main Profession - मुख्य पेशा *
+                        </label>
+                        <select id="profession" class="form-control form-select" required>
+                            <option value="">Select your profession - पेशा चुनें</option>
+                            <!-- Professions will be loaded dynamically -->
+                        </select>
+                    </div>
+                    
+                    <div class="profession-grid" id="professionGrid">
+                        <!-- Profession cards will be loaded here -->
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="otherProfession" class="form-label">
+                            Other Profession (if not in list)
+                        </label>
+                        <input type="text" id="otherProfession" class="form-control" 
+                               placeholder="Specify your profession">
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" onclick="prevStep()" class="btn btn-outline">
+                        <i class="fas fa-arrow-left"></i> Previous
+                    </button>
+                    <button type="button" onclick="nextStep()" class="btn btn-primary">
+                        Next Step <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 3: Experience & Skills -->
+            <div id="step3" class="registration-step card" style="display: none;">
+                <div class="step-header">
+                    <h2>
+                        <i class="fas fa-chart-line"></i> 
+                        Step 3: Experience & Skills - अनुभव और कौशल
+                    </h2>
+                    <p class="step-subtitle">
+                        Tell us about your experience and skills
+                    </p>
+                </div>
+                
+                <div class="experience-section">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="experience" class="form-label">
+                                Work Experience - कार्य अनुभव *
+                            </label>
+                            <select id="experience" class="form-control form-select" required>
+                                <option value="">Select experience</option>
+                                <option value="Fresher">Fresher (नया)</option>
+                                <option value="1-3 years">1-3 Years</option>
+                                <option value="3-5 years">3-5 Years</option>
+                                <option value="5-10 years">5-10 Years</option>
+                                <option value="10+ years">10+ Years</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="dailyRate" class="form-label">
+                                Expected Daily Rate - दैनिक दर *
+                            </label>
+                            <div style="position: relative;">
+                                <span style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text-gray);">₹</span>
+                                <input type="text" id="dailyRate" class="form-control" 
+                                       style="padding-left: 30px;"
+                                       placeholder="e.g., 800-1000" required>
+                            </div>
+                            <small class="form-hint">
+                                Your expected daily wage in rupees
+                            </small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="skills" class="form-label">
+                            Skills - कौशल *
+                        </label>
+                        <div class="skills-input-container">
+                            <input type="text" id="skillsInput" class="form-control" 
+                                   placeholder="Type a skill and press Enter or comma">
+                            <small class="form-hint">
+                                Add your skills (e.g., wiring, fitting, repair)
+                            </small>
+                        </div>
+                        
+                        <div class="skills-tags" id="skillsTags">
+                            <!-- Skills tags will appear here -->
+                        </div>
+                        
+                        <input type="hidden" id="skills" name="skills">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="previousWork" class="form-label">
+                            Previous Work Experience (Optional)
+                        </label>
+                        <textarea id="previousWork" class="form-control form-textarea" 
+                                  rows="2" placeholder="Briefly describe your previous work experience"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Tools You Own (Optional)</label>
+                        <div class="tools-grid">
+                            <label class="tool-checkbox">
+                                <input type="checkbox" name="tools" value="Basic Toolkit">
+                                <span>Basic Toolkit</span>
+                            </label>
+                            <label class="tool-checkbox">
+                                <input type="checkbox" name="tools" value="Power Tools">
+                                <span>Power Tools</span>
+                            </label>
+                            <label class="tool-checkbox">
+                                <input type="checkbox" name="tools" value="Safety Gear">
+                                <span>Safety Gear</span>
+                            </label>
+                            <label class="tool-checkbox">
+                                <input type="checkbox" name="tools" value="Vehicle">
+                                <span>Vehicle</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" onclick="prevStep()" class="btn btn-outline">
+                        <i class="fas fa-arrow-left"></i> Previous
+                    </button>
+                    <button type="button" onclick="nextStep()" class="btn btn-primary">
+                        Next Step <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 4: Review & Submit -->
+            <div id="step4" class="registration-step card" style="display: none;">
+                <div class="step-header">
+                    <h2>
+                        <i class="fas fa-check-circle"></i> 
+                        Step 4: Review & Submit - समीक्षा करें
+                    </h2>
+                    <p class="step-subtitle">
+                        Review your information before submitting
+                    </p>
+                </div>
+                
+                <div class="review-section">
+                    <div class="review-card">
+                        <h3><i class="fas fa-user"></i> Basic Information</h3>
+                        <div class="review-details" id="reviewBasic">
+                            <!-- Basic info will be loaded here -->
+                        </div>
+                        <button type="button" onclick="goToStep(1)" class="btn btn-text">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                    </div>
+                    
+                    <div class="review-card">
+                        <h3><i class="fas fa-briefcase"></i> Profession</h3>
+                        <div class="review-details" id="reviewProfession">
+                            <!-- Profession info will be loaded here -->
+                        </div>
+                        <button type="button" onclick="goToStep(2)" class="btn btn-text">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                    </div>
+                    
+                    <div class="review-card">
+                        <h3><i class="fas fa-chart-line"></i> Experience & Skills</h3>
+                        <div class="review-details" id="reviewExperience">
+                            <!-- Experience info will be loaded here -->
+                        </div>
+                        <button type="button" onclick="goToStep(3)" class="btn btn-text">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="verification-section">
+                    <div class="form-check">
+                        <input type="checkbox" id="agreeTerms" class="form-check-input" required>
+                        <label for="agreeTerms" class="form-check-label">
+                            I confirm that all information provided is accurate and complete.
+                            I agree to the Terms of Service and Privacy Policy.
+                        </label>
+                    </div>
+                    
+                    <div class="form-check">
+                        <input type="checkbox" id="consent" class="form-check-input" required>
+                        <label for="consent" class="form-check-label">
+                            I give consent for my profile to be displayed to customers
+                            and to be contacted for work opportunities.
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" onclick="prevStep()" class="btn btn-outline">
+                        <i class="fas fa-arrow-left"></i> Previous
+                    </button>
+                    <button type="button" onclick="submitRegistration()" class="btn btn-primary">
+                        <i class="fas fa-check"></i> Complete Registration
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-body" style="text-align: center; padding: 3rem;">
+                <div style="font-size: 4rem; color: var(--success); margin-bottom: 1rem;">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2 style="margin-bottom: 0.5rem; color: var(--text-dark);">
+                    Registration Successful!
+                </h2>
+                <p style="color: var(--text-gray); margin-bottom: 2rem;">
+                    Your worker profile has been created successfully.
+                    You can now start receiving work opportunities.
+                </p>
+                <div style="display: flex; gap: 1rem; justify-content: center;">
+                    <a href="../dashboard/worker.html" class="btn btn-primary">
+                        Go to Dashboard
+                    </a>
+                    <button onclick="closeSuccessModal()" class="btn btn-outline">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CSS for Registration -->
+    <style>
+        .registration-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .progress-steps {
+            padding: 1.5rem;
+        }
+        
+        .step {
+            text-align: center;
+            position: relative;
+            z-index: 3;
+            flex: 1;
+        }
+        
+        .step-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            font-weight: 600;
+            color: var(--text-gray);
+            transition: all 0.3s ease;
+        }
+        
+        .step.active .step-circle {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+        
+        .step.completed .step-circle {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+        
+        .step-label {
+            font-size: 0.875rem;
+            color: var(--text-gray);
+        }
+        
+        .step.active .step-label {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .registration-step {
+            padding: 2rem;
+        }
+        
+        .step-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .step-header h2 {
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        .step-subtitle {
+            color: var(--text-gray);
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .form-hint {
+            display: block;
+            color: var(--text-light);
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+        
+        .profession-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .profession-card {
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .profession-card:hover {
+            border-color: var(--primary-light);
+            transform: translateY(-2px);
+        }
+        
+        .profession-card.selected {
+            border-color: var(--primary);
+            background: #f0f9ff;
+        }
+        
+        .profession-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .profession-name {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
+        }
+        
+        .profession-hindi {
+            font-size: 0.75rem;
+            color: var(--text-gray);
+        }
+        
+        .skills-input-container {
+            margin-bottom: 1rem;
+        }
+        
+        .skills-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            min-height: 40px;
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: white;
+        }
+        
+        .skill-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            border-radius: 2rem;
+            font-size: 0.875rem;
+        }
+        
+        .skill-tag-remove {
+            cursor: pointer;
+            color: var(--text-gray);
+        }
+        
+        .skill-tag-remove:hover {
+            color: var(--danger);
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        
+        .tool-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tool-checkbox:hover {
+            border-color: var(--primary);
+            background: #f0f9ff;
+        }
+        
+        .tool-checkbox input:checked + span {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .review-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .review-card {
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            position: relative;
+        }
+        
+        .review-card h3 {
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .review-details {
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        
+        .review-details p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .review-card .btn-text {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.875rem;
+        }
+        
+        .verification-section {
+            padding: 1.5rem;
+            background: var(--bg-light);
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+        }
+        
+        .verification-section .form-check {
+            margin-bottom: 1rem;
+        }
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: var(--radius-lg);
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .btn-text {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            padding: 0;
+            font-size: inherit;
+        }
+        
+        .btn-text:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+    <script src="worker-registration.js"></script>
+    <script>
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in and is a worker
+            const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            
+            if (!user.id || user.role !== 'worker') {
+                // If not a worker, check if coming from signup
+                const urlParams = new URLSearchParams(window.location.search);
+                const userId = urlParams.get('userId');
+                
+                if (!userId) {
+                    // Redirect to login
+                    window.location.href = '../auth/login.html';
+                    return;
+                }
+            }
+            
+            // Load professions
+            loadProfessions();
+            
+            // Initialize skills input
+            initSkillsInput();
+            
+            // Load any existing profile data
+            loadExistingProfile();
+        });
+        
+        function initSkillsInput() {
+            const skillsInput = document.getElementById('skillsInput');
+            const skillsTags = document.getElementById('skillsTags');
+            
+            skillsInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ',') {
+                    e.preventDefault();
+                    const skill = skillsInput.value.trim();
+                    
+                    if (skill && !skillExists(skill)) {
+                        addSkillTag(skill);
+                        skillsInput.value = '';
+                    }
+                }
+            });
+            
+            skillsInput.addEventListener('blur', function() {
+                const skill = skillsInput.value.trim();
+                
+                if (skill && !skillExists(skill)) {
+                    addSkillTag(skill);
+                    skillsInput.value = '';
+                }
+            });
+        }
+        
+        function skillExists(skill) {
+            const tags = document.querySelectorAll('.skill-tag span:first-child');
+            for (let tag of tags) {
+                if (tag.textContent.toLowerCase() === skill.toLowerCase()) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        function addSkillTag(skill) {
+            const skillsTags = document.getElementById('skillsTags');
+            const tag = document.createElement('div');
+            tag.className = 'skill-tag';
+            tag.innerHTML = `
+                <span>${skill}</span>
+                <span class="skill-tag-remove" onclick="removeSkillTag(this)">×</span>
+            `;
+            skillsTags.appendChild(tag);
+            updateSkillsHiddenInput();
+        }
+        
+        function removeSkillTag(element) {
+            element.parentElement.remove();
+            updateSkillsHiddenInput();
+        }
+        
+        function updateSkillsHiddenInput() {
+            const tags = document.querySelectorAll('.skill-tag span:first-child');
+            const skills = Array.from(tags).map(tag => tag.textContent);
+            document.getElementById('skills').value = skills.join(',');
+        }
+        
+        function loadExistingProfile() {
+            // Check if worker profile already exists
+            const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            const workers = LocalStorageDB.workers.get();
+            const existingProfile = workers.find(w => w.userId === user.id);
+            
+            if (existingProfile) {
+                // Pre-fill form with existing data
+                document.getElementById('fullName').value = existingProfile.fullName || '';
+                document.getElementById('fatherName').value = existingProfile.fatherName || '';
+                document.getElementById('mobile').value = existingProfile.mobile || '';
+                document.getElementById('age').value = existingProfile.age || '';
+                document.getElementById('address').value = existingProfile.address || '';
+                document.getElementById('area').value = existingProfile.area || '';
+                document.getElementById('pincode').value = existingProfile.pincode || '';
+                
+                if (existingProfile.profession) {
+                    document.getElementById('profession').value = existingProfile.profession;
+                }
+                
+                if (existingProfile.experience) {
+                    document.getElementById('experience').value = existingProfile.experience;
+                }
+                
+                if (existingProfile.dailyRate) {
+                    document.getElementById('dailyRate').value = existingProfile.dailyRate.replace('₹', '');
+                }
+                
+                if (existingProfile.skills && existingProfile.skills.length > 0) {
+                    existingProfile.skills.forEach(skill => {
+                        addSkillTag(skill);
+                    });
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Dashboard - Labour Hub</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="dashboard">
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <i class="fas fa-hard-hat"></i>
+                <span>LabourHub</span>
+            </a>
+            
+            <div class="nav-buttons">
+                <div class="user-info" style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="text-align: right;">
+                        <div id="userName" style="font-weight: 600; color: var(--text-dark);">
+                            Loading...
+                        </div>
+                        <div style="font-size: 0.875rem; color: var(--text-gray);">
+                            Customer
+                        </div>
+                    </div>
+                    <button onclick="logout()" class="btn btn-outline" style="padding: 0.5rem 1rem;">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <main class="dashboard-content">
+        <!-- Welcome Section -->
+        <div class="welcome-card card" style="margin-bottom: 2rem; background: linear-gradient(135deg, #2563eb, #3b82f6); color: white;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h2 style="margin-bottom: 0.5rem;">Welcome, <span id="welcomeName">Customer</span>!</h2>
+                    <p>Find skilled workers for your needs</p>
+                </div>
+                <div style="font-size: 3rem; opacity: 0.8;">
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Section -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <h2 style="margin-bottom: 1.5rem; color: var(--text-dark);">
+                <i class="fas fa-search"></i> Find Workers - कार्यकर्ता ढूंढें
+            </h2>
+            
+            <div class="search-filters" style="display: grid; gap: 1.5rem;">
+                <div class="form-group">
+                    <label class="form-label">Search by Area - इलाका से खोजें</label>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="text" id="searchArea" class="form-control" 
+                               placeholder="Enter area name (e.g., Patel Nagar)">
+                        <button onclick="searchByCurrentLocation()" class="btn btn-outline" type="button">
+                            <i class="fas fa-location-arrow"></i> Current
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Select Profession - पेशा चुनें</label>
+                    <select id="searchProfession" class="form-control form-select">
+                        <option value="">All Professions - सभी पेशे</option>
+                        <!-- Professions will be loaded dynamically -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Filter by Experience</label>
+                    <select id="searchExperience" class="form-control form-select">
+                        <option value="">Any Experience</option>
+                        <option value="fresher">Fresher (0-1 years)</option>
+                        <option value="1-3">1-3 Years</option>
+                        <option value="3-5">3-5 Years</option>
+                        <option value="5+">5+ Years</option>
+                    </select>
+                </div>
+                
+                <button onclick="searchWorkers()" class="btn btn-primary">
+                    <i class="fas fa-search"></i> Search Workers
+                </button>
+            </div>
+        </div>
+
+        <!-- Quick Categories -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <h3 style="margin-bottom: 1rem; color: var(--text-dark);">
+                Quick Categories - जल्दी चुनें
+            </h3>
+            
+            <div class="quick-categories" id="quickCategories">
+                <!-- Categories will load here -->
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h2 style="color: var(--text-dark);">
+                    Available Workers - उपलब्ध कार्यकर्ता
+                </h2>
+                <div id="resultsCount" style="color: var(--text-gray); font-size: 0.875rem;">
+                    0 workers found
+                </div>
+            </div>
+            
+            <div id="workersList" class="workers-grid">
+                <!-- Workers will load here -->
+                <div class="loading-state" style="text-align: center; padding: 3rem;">
+                    <div style="font-size: 2rem; color: var(--text-light); margin-bottom: 1rem;">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <p style="color: var(--text-gray);">
+                        Search for workers to see results here
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- No Results Template (Hidden) -->
+        <template id="noResultsTemplate">
+            <div class="no-results" style="text-align: center; padding: 3rem; background: white; border-radius: var(--radius-lg);">
+                <div style="font-size: 3rem; color: var(--text-light); margin-bottom: 1rem;">
+                    <i class="fas fa-user-slash"></i>
+                </div>
+                <h3 style="margin-bottom: 0.5rem; color: var(--text-dark);">
+                    No Workers Found
+                </h3>
+                <p style="color: var(--text-gray); margin-bottom: 1.5rem;">
+                    Try different search criteria or check back later
+                </p>
+                <button onclick="clearSearch()" class="btn btn-primary">
+                    Clear Search
+                </button>
+            </div>
+        </template>
+
+        <!-- Worker Card Template (Hidden) -->
+        <template id="workerCardTemplate">
+            <div class="worker-card card" style="cursor: pointer; transition: var(--transition);">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                    <div>
+                        <h3 class="worker-name" style="margin-bottom: 0.25rem;"></h3>
+                        <div class="worker-profession" style="display: inline-block; padding: 0.25rem 0.75rem; background: #e0f2fe; color: #0369a1; border-radius: 2rem; font-size: 0.875rem;"></div>
+                    </div>
+                    <div class="worker-verified" style="color: var(--success);">
+                        <i class="fas fa-badge-check"></i> Verified
+                    </div>
+                </div>
+                
+                <div class="worker-details" style="margin-bottom: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                        <i class="fas fa-map-marker-alt" style="color: var(--text-gray);"></i>
+                        <span class="worker-area"></span>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                        <i class="fas fa-briefcase" style="color: var(--text-gray);"></i>
+                        <span class="worker-experience"></span>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-rupee-sign" style="color: var(--text-gray);"></i>
+                        <span class="worker-rate"></span>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                    <button class="btn btn-outline contact-btn" onclick="contactWorker(event)">
+                        <i class="fas fa-phone"></i> Contact
+                    </button>
+                    <button class="btn btn-primary view-btn" onclick="viewWorkerDetails(event)">
+                        <i class="fas fa-eye"></i> View
+                    </button>
+                </div>
+            </div>
+        </template>
+    </main>
+
+    <!-- View Worker Modal -->
+    <div id="workerModal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+        <div class="modal-content" style="background: white; width: 90%; max-width: 500px; border-radius: var(--radius-lg); overflow: hidden;">
+            <div class="modal-header" style="padding: 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="color: var(--text-dark);">Worker Details</h3>
+                <button onclick="closeModal()" style="background: none; border: none; font-size: 1.5rem; color: var(--text-gray); cursor: pointer;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body" style="padding: 1.5rem; max-height: 60vh; overflow-y: auto;">
+                <div id="modalWorkerDetails">
+                    <!-- Worker details will be loaded here -->
+                </div>
+            </div>
+            
+            <div class="modal-footer" style="padding: 1.5rem; border-top: 1px solid var(--border); display: flex; gap: 0.5rem;">
+                <button onclick="contactModalWorker()" class="btn btn-primary" style="flex: 1;">
+                    <i class="fas fa-phone"></i> Contact Now
+                </button>
+                <button onclick="closeModal()" class="btn btn-outline">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="customer.js"></script>
+    <script>
+        // Load user info on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserInfo();
+            loadProfessions();
+            loadQuickCategories();
+            
+            // Show all workers initially
+            searchWorkers();
+        });
+        
+        function loadUserInfo() {
+            const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            if (user.id) {
+                document.getElementById('userName').textContent = user.fullName || 'Customer';
+                document.getElementById('welcomeName').textContent = user.fullName || 'Customer';
+            } else {
+                // Not logged in, redirect to login
+                window.location.href = '../auth/login.html';
+            }
+        }
+        
+        function logout() {
+            localStorage.removeItem('currentUser');
+            localStorage.setItem('isLoggedIn', 'false');
+            window.location.href = '../auth/login.html';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Dashboard - Labour Hub</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="dashboard">
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <i class="fas fa-hard-hat"></i>
+                <span>LabourHub</span>
+            </a>
+            
+            <div class="nav-buttons">
+                <div class="user-info" style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="text-align: right;">
+                        <div id="userName" style="font-weight: 600; color: var(--text-dark);">
+                            Loading...
+                        </div>
+                        <div style="font-size: 0.875rem; color: var(--text-gray);">
+                            Professional
+                        </div>
+                    </div>
+                    <button onclick="logout()" class="btn btn-outline" style="padding: 0.5rem 1rem;">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <main class="dashboard-content">
+        <!-- Welcome Section -->
+        <div class="welcome-card card" style="margin-bottom: 2rem; background: linear-gradient(135deg, #8b5cf6, #a78bfa); color: white;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h2 style="margin-bottom: 0.5rem;">Welcome, <span id="welcomeName">Professional</span>!</h2>
+                    <p>Manage your workers and grow your business</p>
+                </div>
+                <div style="font-size: 3rem; opacity: 0.8;">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+            <div class="card" style="text-align: center; padding: 1.5rem;">
+                <div style="font-size: 2rem; color: var(--primary); margin-bottom: 0.5rem;">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div style="font-size: 1.5rem; font-weight: 600; color: var(--text-dark);" id="totalWorkers">
+                    0
+                </div>
+                <div style="color: var(--text-gray); font-size: 0.875rem;">Total Workers</div>
+            </div>
+            
+            <div class="card" style="text-align: center; padding: 1.5rem;">
+                <div style="font-size: 2rem; color: var(--success); margin-bottom: 0.5rem;">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div style="font-size: 1.5rem; font-weight: 600; color: var(--text-dark);" id="activeWorkers">
+                    0
+                </div>
+                <div style="color: var(--text-gray); font-size: 0.875rem;">Active Workers</div>
+            </div>
+            
+            <div class="card" style="text-align: center; padding: 1.5rem;">
+                <div style="font-size: 2rem; color: var(--warning); margin-bottom: 0.5rem;">
+                    <i class="fas fa-eye"></i>
+                </div>
+                <div style="font-size: 1.5rem; font-weight: 600; color: var(--text-dark);" id="profileViews">
+                    0
+                </div>
+                <div style="color: var(--text-gray); font-size: 0.875rem;">Total Views</div>
+            </div>
+            
+            <div class="card" style="text-align: center; padding: 1.5rem;">
+                <div style="font-size: 2rem; color: var(--info); margin-bottom: 0.5rem;">
+                    <i class="fas fa-rupee-sign"></i>
+                </div>
+                <div style="font-size: 1.5rem; font-weight: 600; color: var(--text-dark);" id="earnings">
+                    ₹0
+                </div>
+                <div style="color: var(--text-gray); font-size: 0.875rem;">Earnings (Future)</div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <h2 style="margin-bottom: 1.5rem; color: var(--text-dark);">
+                <i class="fas fa-tools"></i> Quick Actions
+            </h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <button onclick="addNewWorker()" class="btn btn-primary" style="padding: 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-user-plus" style="font-size: 2rem;"></i>
+                    <span>Add New Worker</span>
+                    <small style="font-size: 0.75rem; opacity: 0.8;">First 10 workers FREE</small>
+                </button>
+                
+                <button onclick="viewAllWorkers()" class="btn btn-outline" style="padding: 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-list" style="font-size: 2rem;"></i>
+                    <span>View All Workers</span>
+                </button>
+                
+                <button onclick="managePayments()" class="btn btn-outline" style="padding: 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-credit-card" style="font-size: 2rem;"></i>
+                    <span>Payment Settings</span>
+                    <small style="font-size: 0.75rem; opacity: 0.8;">Future Feature</small>
+                </button>
+                
+                <button onclick="downloadReport()" class="btn btn-outline" style="padding: 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-download" style="font-size: 2rem;"></i>
+                    <span>Download Report</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Recent Workers -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h2 style="color: var(--text-dark);">
+                    <i class="fas fa-users"></i> Recent Workers
+                </h2>
+                <button onclick="viewAllWorkers()" class="btn btn-outline" style="padding: 0.5rem 1rem;">
+                    View All
+                </button>
+            </div>
+            
+            <div id="recentWorkers">
+                <!-- Workers will load here -->
+                <div style="text-align: center; padding: 2rem;">
+                    <div style="font-size: 2rem; color: var(--text-light); margin-bottom: 1rem;">
+                        <i class="fas fa-users-slash"></i>
+                    </div>
+                    <p style="color: var(--text-gray); margin-bottom: 1.5rem;">
+                        No workers added yet
+                    </p>
+                    <button onclick="addNewWorker()" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i> Add Your First Worker
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Info -->
+        <div class="card">
+            <h2 style="margin-bottom: 1.5rem; color: var(--text-dark);">
+                <i class="fas fa-credit-card"></i> Payment Information
+            </h2>
+            
+            <div style="padding: 1.5rem; background: var(--bg-light); border-radius: var(--radius);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <div>
+                        <div style="font-weight: 600; color: var(--text-dark);">Current Plan</div>
+                        <div style="color: var(--text-gray); font-size: 0.875rem;">Free Plan (First Version)</div>
+                    </div>
+                    <span style="padding: 0.25rem 0.75rem; background: var(--success); color: white; border-radius: 2rem; font-size: 0.875rem;">
+                        Active
+                    </span>
+                </div>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <div style="color: var(--text-gray); font-size: 0.875rem; margin-bottom: 0.5rem;">Plan Details:</div>
+                    <ul style="color: var(--text-dark); padding-left: 1.5rem;">
+                        <li>First 10 workers: <strong>FREE</strong></li>
+                        <li>Additional workers: <strong>₹10 per worker</strong> (Future)</li>
+                        <li>No hidden charges</li>
+                        <li>Pay as you grow</li>
+                    </ul>
+                </div>
+                
+                <div style="background: #fef3c7; padding: 1rem; border-radius: var(--radius);">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; color: #92400e; margin-bottom: 0.5rem;">
+                        <i class="fas fa-info-circle"></i>
+                        <span style="font-weight: 600;">Note for Future Version</span>
+                    </div>
+                    <p style="color: #92400e; font-size: 0.875rem; margin: 0;">
+                        In the next version, payment system will be added. You'll be able to add unlimited workers by paying ₹10 per worker after the first 10 free workers.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Worker Modal -->
+    <div id="addWorkerModal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 1rem;">
+        <div class="modal-content" style="background: white; width: 100%; max-width: 600px; max-height: 90vh; border-radius: var(--radius-lg); overflow: hidden; display: flex; flex-direction: column;">
+            <div class="modal-header" style="padding: 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="color: var(--text-dark);">
+                    <i class="fas fa-user-plus"></i> Add New Worker
+                </h3>
+                <button onclick="closeAddWorkerModal()" style="background: none; border: none; font-size: 1.5rem; color: var(--text-gray); cursor: pointer;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body" style="padding: 1.5rem; flex: 1; overflow-y: auto;">
+                <form id="addWorkerForm">
+                    <!-- Form will be loaded here -->
+                </form>
+            </div>
+            
+            <div class="modal-footer" style="padding: 1.5rem; border-top: 1px solid var(--border); display: flex; gap: 0.5rem;">
+                <button type="submit" form="addWorkerForm" class="btn btn-primary" style="flex: 1;">
+                    <i class="fas fa-save"></i> Add Worker
+                </button>
+                <button onclick="closeAddWorkerModal()" class="btn btn-outline">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Worker Modal -->
+    <div id="viewWorkerModal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 1rem;">
+        <div class="modal-content" style="background: white; width: 100%; max-width: 500px; max-height: 90vh; border-radius: var(--radius-lg); overflow: hidden; display: flex; flex-direction: column;">
+            <div class="modal-header" style="padding: 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="color: var(--text-dark);">
+                    <i class="fas fa-user"></i> Worker Details
+                </h3>
+                <button onclick="closeViewWorkerModal()" style="background: none; border: none; font-size: 1.5rem; color: var(--text-gray); cursor: pointer;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body" style="padding: 1.5rem; flex: 1; overflow-y: auto;">
+                <div id="workerDetailsContent">
+                    <!-- Worker details will be loaded here -->
+                </div>
+            </div>
+            
+            <div class="modal-footer" style="padding: 1.5rem; border-top: 1px solid var(--border); display: flex; gap: 0.5rem;">
+                <button onclick="editCurrentWorker()" class="btn btn-primary">
+                    <i class="fas fa-edit"></i> Edit
+                </button>
+                <button onclick="deleteCurrentWorker()" class="btn" style="background: #fee2e2; color: #991b1b;">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+                <button onclick="closeViewWorkerModal()" class="btn btn-outline">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="professional.js"></script>
+    <script>
+        // Load on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserInfo();
+            loadDashboardData();
+            
+            // Close modals when clicking outside
+            const modals = ['addWorkerModal', 'viewWorkerModal'];
+            modals.forEach(modalId => {
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.addEventListener('click', function(e) {
+                        if (e.target === modal) {
+                            if (modalId === 'addWorkerModal') closeAddWorkerModal();
+                            if (modalId === 'viewWorkerModal') closeViewWorkerModal();
+                        }
+                    });
+                }
+            });
+        });
+        
+        function loadUserInfo() {
+            const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            if (user.id && user.role === 'professional') {
+                document.getElementById('userName').textContent = user.fullName || 'Professional';
+                document.getElementById('welcomeName').textContent = user.fullName || 'Professional';
+            } else {
+                // Not logged in or not a professional, redirect
+                window.location.href = '../auth/login.html';
+            }
+        }
+        
+        function logout() {
+            localStorage.removeItem('currentUser');
+            localStorage.setItem('isLoggedIn', 'false');
+            window.location.href = '../auth/login.html';
+        }
+    </script>
+</body>
+</html>

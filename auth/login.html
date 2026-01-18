@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Labour Hub</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <i class="fas fa-hard-hat"></i>
+                <span>LabourHub</span>
+            </a>
+            
+            <div class="nav-buttons">
+                <a href="../index.html" class="btn btn-outline">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="signup.html" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> Sign Up
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container" style="min-height: 80vh; display: flex; align-items: center; justify-content: center;">
+        <div class="form-container fade-in" style="max-width: 450px;">
+            <h1 class="form-title">Welcome Back</h1>
+            <p class="text-center" style="color: var(--text-gray); margin-bottom: 2rem;">
+                Login to your LabourHub account
+            </p>
+            
+            <!-- Login Methods -->
+            <div class="login-methods" style="margin-bottom: 2rem;">
+                <button onclick="showMobileLogin()" 
+                        class="btn" 
+                        style="width: 100%; margin-bottom: 1rem; background: var(--bg-light);">
+                    <i class="fas fa-mobile-alt"></i> Login with Mobile
+                </button>
+                
+                <button onclick="showEmailLogin()" 
+                        class="btn" 
+                        style="width: 100%; background: var(--bg-light);">
+                    <i class="fas fa-envelope"></i> Login with Email
+                </button>
+            </div>
+            
+            <!-- Mobile Login Form -->
+            <form id="mobileLoginForm" onsubmit="loginWithMobile(event)" style="display: none;">
+                <div class="form-group">
+                    <label for="loginMobile" class="form-label">
+                        Mobile Number - मोबाइल नंबर *
+                    </label>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <div style="flex: 0 0 70px;">
+                            <select class="form-control" style="padding: 0.75rem 0.5rem;">
+                                <option>+91 IN</option>
+                            </select>
+                        </div>
+                        <div style="flex: 1;">
+                            <input type="tel" id="loginMobile" class="form-control" 
+                                   placeholder="9876543210" required
+                                   pattern="[0-9]{10}" 
+                                   title="10 digit mobile number">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="mobilePassword" class="form-label">
+                        Password - पासवर्ड *
+                    </label>
+                    <input type="password" id="mobilePassword" class="form-control" 
+                           placeholder="Enter your password" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-sign-in-alt"></i> Login with Mobile
+                </button>
+            </form>
+            
+            <!-- Email Login Form -->
+            <form id="emailLoginForm" onsubmit="loginWithEmail(event)" style="display: none;">
+                <div class="form-group">
+                    <label for="loginEmail" class="form-label">
+                        Email Address *
+                    </label>
+                    <input type="email" id="loginEmail" class="form-control" 
+                           placeholder="your@email.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="emailPassword" class="form-label">
+                        Password - पासवर्ड *
+                    </label>
+                    <input type="password" id="emailPassword" class="form-control" 
+                           placeholder="Enter your password" required>
+                </div>
+                
+                <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div class="form-check">
+                        <input type="checkbox" id="rememberMe" class="form-check-input">
+                        <label for="rememberMe" class="form-check-label">
+                            Remember me
+                        </label>
+                    </div>
+                    
+                    <a href="#" style="color: var(--primary); font-size: 0.875rem;">
+                        Forgot Password?
+                    </a>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-sign-in-alt"></i> Login with Email
+                </button>
+            </form>
+            
+            <!-- Demo Login Section -->
+            <div style="margin: 2rem 0; padding: 1.5rem; background: #f0f9ff; border-radius: var(--radius);">
+                <h4 style="color: var(--primary); margin-bottom: 0.5rem;">
+                    <i class="fas fa-info-circle"></i> Quick Demo Login
+                </h4>
+                <p style="color: var(--text-gray); font-size: 0.875rem; margin-bottom: 1rem;">
+                    For testing, use these demo credentials:
+                </p>
+                
+                <div style="display: grid; gap: 0.5rem;">
+                    <button onclick="demoLogin('customer')" class="btn" style="background: white; text-align: left;">
+                        👤 Customer: 9876543210 / password123
+                    </button>
+                    <button onclick="demoLogin('worker')" class="btn" style="background: white; text-align: left;">
+                        👷 Worker: 9876543211 / password123
+                    </button>
+                    <button onclick="demoLogin('professional')" class="btn" style="background: white; text-align: left;">
+                        👨‍💼 Professional: 9876543212 / password123
+                    </button>
+                </div>
+            </div>
+            
+            <div class="text-center" style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+                <p style="color: var(--text-gray);">
+                    Don't have an account?
+                    <a href="signup.html" style="color: var(--primary); font-weight: 600;">
+                        Sign Up here
+                    </a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <script src="login.js"></script>
+    <script>
+        // Show mobile login form
+        function showMobileLogin() {
+            document.getElementById('mobileLoginForm').style.display = 'block';
+            document.getElementById('emailLoginForm').style.display = 'none';
+        }
+        
+        // Show email login form
+        function showEmailLogin() {
+            document.getElementById('emailLoginForm').style.display = 'block';
+            document.getElementById('mobileLoginForm').style.display = 'none';
+        }
+        
+        // Demo login function
+        function demoLogin(role) {
+            let mobile, email, password;
+            
+            switch(role) {
+                case 'customer':
+                    mobile = '9876543210';
+                    email = 'customer@labourhub.in';
+                    password = 'password123';
+                    break;
+                case 'worker':
+                    mobile = '9876543211';
+                    email = 'worker@labourhub.in';
+                    password = 'password123';
+                    break;
+                case 'professional':
+                    mobile = '9876543212';
+                    email = 'professional@labourhub.in';
+                    password = 'password123';
+                    break;
+            }
+            
+            // Auto fill form
+            document.getElementById('loginMobile').value = mobile;
+            document.getElementById('mobilePassword').value = password;
+            document.getElementById('loginEmail').value = email;
+            document.getElementById('emailPassword').value = password;
+            
+            // Show mobile login form
+            showMobileLogin();
+            
+            // Show message
+            alert(`Demo ${role} credentials filled. Click Login button.`);
+        }
+        
+        // On page load, check if demo data exists
+        window.addEventListener('DOMContentLoaded', function() {
+            // Create demo users if they don't exist
+            createDemoUsers();
+            
+            // Check if already logged in
+            checkLoginStatus();
+        });
+    </script>
+</body>
+</html>
